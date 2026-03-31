@@ -1,0 +1,89 @@
+@use '../../../../styles/design-system';
+.register-page { min-height: 100vh; display: flex; flex-direction: column; position: relative; }
+
+.icon-btn { background: none; border: none; cursor: pointer; color: var(--on-surface-variant); display: flex; padding: 0.5rem; border-radius: 50%; transition: background 0.2s; &:hover { background: var(--surface-container-low); } }
+
+.register-main {
+  flex: 1; display: flex; align-items: center; justify-content: center;
+  padding: 4rem 1rem;
+}
+
+.register-card {
+  display: flex; flex-direction: column; width: 100%; max-width: 900px;
+  box-shadow: var(--shadow-card); overflow: hidden; border-radius: var(--radius-lg);
+  @media (min-width: 768px) { flex-direction: row; }
+  animation: fadeUp 0.5s ease both;
+}
+@keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+
+/* EDITORIAL PANEL */
+.editorial-panel {
+  display: none;
+  @media (min-width: 768px) {
+    display: flex; flex-direction: column; justify-content: space-between;
+    width: 42%; background: var(--primary-container); padding: 3rem;
+    position: relative; overflow: hidden;
+  }
+}
+.editorial-glow {
+  position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(circle at 20% 30%, rgba(255,255,255,0.08) 0%, transparent 70%);
+}
+.editorial-content { position: relative; z-index: 1; }
+.editorial-tag { color: var(--secondary-container); font-size: 1rem; display: block; margin-bottom: 1.5rem; }
+.editorial-panel h2 { font-family: var(--font-headline); font-size: 2.5rem; font-weight: 800; color: white; line-height: 1.2; margin-bottom: 1.5rem; }
+.editorial-panel p { font-size: 0.85rem; color: rgba(255,255,255,0.75); line-height: 1.7; font-weight: 300; }
+.editorial-footer {
+  display: flex; align-items: center; gap: 1rem; position: relative; z-index: 1;
+  span:last-child { color: white; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 500; }
+}
+.heritage-badge {
+  width: 40px; height: 40px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.2);
+  display: flex; align-items: center; justify-content: center;
+  .material-symbols-outlined { color: white; font-size: 18px; }
+}
+
+/* FORM PANEL */
+.form-panel {
+  flex: 1; background: var(--surface-container-lowest);
+  padding: 2.5rem; @media (min-width: 768px) { padding: 4rem; }
+}
+.form-header {
+  margin-bottom: 2rem;
+  h3 { font-family: var(--font-headline); font-size: 2rem; font-weight: 700; color: var(--primary); margin-bottom: 0.4rem; }
+  p { font-size: 0.85rem; color: var(--on-surface-variant); }
+}
+
+.error-box {
+  display: flex; align-items: center; gap: 0.5rem;
+  background: var(--error-container); color: var(--error);
+  padding: 0.75rem 1rem; border-radius: var(--radius-md);
+  font-size: 0.85rem; margin-bottom: 1.5rem;
+  .material-symbols-outlined { font-size: 18px; }
+}
+
+.reg-form { display: flex; flex-direction: column; gap: 1.5rem; }
+.field { display: flex; flex-direction: column; }
+.field-hint-inline { font-size: 0.7rem; font-weight: 400; font-style: italic; text-transform: none; letter-spacing: 0; color: var(--on-surface-variant); opacity: 0.7; }
+.field-hint { display: flex; align-items: center; gap: 0.25rem; font-size: 0.7rem; color: var(--on-surface-variant); opacity: 0.6; margin-top: 0.4rem; }
+
+.pw-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+
+.tos-row {
+  display: flex; align-items: flex-start; gap: 0.75rem;
+  input[type="checkbox"] { margin-top: 3px; accent-color: var(--primary); width: 14px; height: 14px; flex-shrink: 0; }
+  label { font-size: 0.8rem; color: var(--on-surface-variant); line-height: 1.5; cursor: pointer;
+    a { color: var(--primary); font-weight: 600; text-decoration: none; border-bottom: 2px solid var(--secondary-container); &:hover { text-decoration: underline; } }
+  }
+}
+
+.login-link {
+  text-align: center; font-size: 0.75rem; color: var(--on-surface-variant);
+  a { color: var(--primary); font-weight: 700; text-decoration: none; text-transform: uppercase; letter-spacing: 0.1em; margin-left: 0.25rem; &:hover { text-decoration: underline; } }
+}
+
+.bg-decoration {
+  position: fixed; bottom: 0; right: 0; padding: 3rem;
+  pointer-events: none; opacity: 0.03;
+  .material-symbols-outlined { font-size: 200px; color: var(--on-surface); }
+}

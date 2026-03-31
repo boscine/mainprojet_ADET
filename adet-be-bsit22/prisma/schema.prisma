@@ -1,0 +1,149 @@
+// ── Prisma Client & MySQL Connection ──────────────────────────────────────────
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// ── USER ───────────────────────────────────────────────────────────────────────
+model User {
+  id           Int       @id @default(autoincrement())
+  email        String    @unique
+  passwordHash String    @map("password_hash")
+  displayName  String    @map("display_name")
+  role         Role      @default(student)
+  status       UserStatus @default(active)
+  lastLogin    DateTime? @map("last_login")
+  createdAt    DateTime  @default(now()) @map("created_at")
+
+  // Relations
+  contacts      Contact[]
+  posts         Post[]
+  reports       PostReport[]   @relation("Reporter")
+  passwordResets PasswordReset[]
+
+  @@map("user")
+}
+
+// ── CONTACT ────────────────────────────────────────────────────────────────────
+model Contact {
+  id     Int         @id @default(autoincrement())
+  userId Int         @map("user_id")
+  type   ContactType
+  value  String
+
+  // Relations
+  user   User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("contact")
+}
+
+// ── CATEGORY ───────────────────────────────────────────────────────────────────
+model Category {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  createdAt DateTime @default(now()) @map("created_at")
+
+  // Relations
+  posts     Post[]
+
+  @@map("category")
+}
+
+// ── POST ───────────────────────────────────────────────────────────────────────
+model Post {
+  id         Int        @id @default(autoincrement())
+  userId     Int        @map("user_id")
+  categoryId Int        @map("category_id")
+  title      String
+  description String    @db.Text
+  status     PostStatus @default(open)
+  isFlagged  Boolean    @default(false) @map("is_flagged")
+  createdAt  DateTime   @default(now()) @map("created_at")
+  updatedAt  DateTime   @updatedAt @map("updated_at")
+
+  // Relations
+  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  category   Category    @relation(fields: [categoryId], references: [id])
+  reports    PostReport[]
+
+  @@map("post")
+}
+
+// ── POST_REPORT ────────────────────────────────────────────────────────────────
+model PostReport {
+  id         Int          @id @default(autoincrement())
+  postId     Int          @map("post_id")
+  reporterId Int          @map("reporter_id")
+  reason     ReportReason
+  details    String?      @db.Text
+  status     ReportStatus @default(pending)
+  createdAt  DateTime     @default(now()) @map("created_at")
+
+  // Relations
+  post       Post         @relation(fields: [postId], references: [id], onDelete: Cascade)
+  reporter   User         @relation("Reporter", fields: [reporterId], references: [id], onDelete: Cascade)
+
+  // One report per user per post
+  @@unique([postId, reporterId])
+  @@map("post_report")
+}
+
+// ── PASSWORD_RESET ─────────────────────────────────────────────────────────────
+model PasswordReset {
+  id        Int       @id @default(autoincrement())
+  userId    Int       @map("user_id")
+  token     String    @unique
+  expiresAt DateTime  @map("expires_at")
+  usedAt    DateTime? @map("used_at")
+  createdAt DateTime  @default(now()) @map("created_at")
+
+  // Relations
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("password_reset")
+}
+
+// ── ENUMS ──────────────────────────────────────────────────────────────────────
+enum Role {
+  student
+  admin
+}
+
+enum UserStatus {
+  active
+  suspended
+  banned
+}
+
+enum ContactType {
+  messenger
+  phone
+  other
+}
+
+enum PostStatus {
+  open
+  fulfilled
+  closed
+  removed
+}
+
+enum ReportReason {
+  inappropriate
+  spam
+  misleading
+  not_educational
+  duplicate
+  fake_contact
+  other
+}
+
+enum ReportStatus {
+  pending
+  reviewed
+  dismissed
+}

@@ -1,0 +1,115 @@
+<div class="register-page">
+
+  <!-- NAV -->
+  <header class="app-nav">
+    <div class="nav-inner">
+      <a class="nav-brand" routerLink="/">Liceo Resource Hub</a>
+      <div class="nav-actions">
+        <button class="icon-btn">
+          <span class="material-symbols-outlined">help_outline</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- SPLIT CARD -->
+  <main class="register-main">
+    <div class="register-card">
+
+      <!-- Left: Editorial Panel -->
+      <div class="editorial-panel">
+        <div class="editorial-glow"></div>
+        <div class="editorial-content">
+          <span class="editorial-tag serif-italic">The Academic Curator</span>
+          <h2>Join the legacy of shared knowledge.</h2>
+          <p>A dedicated atelier for Liceo de Cagayan University scholars to curate and exchange educational resources, bridging the gap between physical and digital learning.</p>
+        </div>
+        <div class="editorial-footer">
+          <div class="heritage-badge">
+            <span class="material-symbols-outlined">auto_stories</span>
+          </div>
+          <span>Liceo Heritage Portal</span>
+        </div>
+      </div>
+
+      <!-- Right: Form -->
+      <div class="form-panel">
+
+        <div class="form-header">
+          <h3>Create Account</h3>
+          <p>Welcome to the digital resource atelier.</p>
+        </div>
+
+        <div class="error-box" *ngIf="error">
+          <span class="material-symbols-outlined">error</span>
+          {{ error }}
+        </div>
+
+        <form (ngSubmit)="onSubmit()" #regForm="ngForm" class="reg-form">
+
+          <div class="field">
+            <label class="field-label" for="displayName">Full Name</label>
+            <input class="input-academic" id="displayName" type="text"
+              [(ngModel)]="displayName" name="displayName"
+              placeholder="Juan Dela Cruz" required/>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="email">
+              University Email
+              <span class="field-hint-inline">@liceo.edu.ph only</span>
+            </label>
+            <input class="input-academic" id="email" type="email"
+              [(ngModel)]="email" name="email"
+              placeholder="username@liceo.edu.ph" required/>
+            <p class="field-hint">
+              <span class="material-symbols-outlined" style="font-size:12px">info</span>
+              Only official Liceo university emails are permitted for verification.
+            </p>
+          </div>
+
+          <div class="pw-grid">
+            <div class="field">
+              <label class="field-label" for="password">Password</label>
+              <input class="input-academic" id="password" type="password"
+                [(ngModel)]="password" name="password"
+                placeholder="••••••••" required/>
+            </div>
+            <div class="field">
+              <label class="field-label" for="confirm">Confirm</label>
+              <input class="input-academic" id="confirm" type="password"
+                [(ngModel)]="confirmPassword" name="confirm"
+                placeholder="••••••••" required/>
+            </div>
+          </div>
+
+          <div class="tos-row">
+            <input type="checkbox" id="tos" [(ngModel)]="agreedToTos" name="tos"/>
+            <label for="tos">
+              I agree to the <a href="#">Terms of Service</a> and Privacy Policy for material exchange.
+            </label>
+          </div>
+
+          <button type="submit" class="btn-primary" [disabled]="loading || !regForm.valid">
+            <span *ngIf="!loading">Register</span>
+            <span *ngIf="!loading" class="material-symbols-outlined">arrow_forward</span>
+            <span *ngIf="loading" class="spinner"></span>
+          </button>
+
+          <div class="login-link">
+            <span>Already have an account?</span>
+            <a routerLink="/login">Log in</a>
+          </div>
+
+        </form>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- BG DECORATION -->
+  <div class="bg-decoration">
+    <span class="material-symbols-outlined">account_balance</span>
+  </div>
+
+</div>

@@ -1,0 +1,121 @@
+<div class="feed-page">
+
+  <!-- NAV -->
+  <header class="app-nav">
+    <div class="nav-inner">
+      <a class="nav-brand" routerLink="/">Liceo Resource Hub</a>
+      <nav class="nav-links">
+        <a routerLink="/feed" class="active">Requests</a>
+        <a routerLink="/post/create">Create</a>
+        <a routerLink="/admin" *ngIf="isLoggedIn">Dashboard</a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn"><span class="material-symbols-outlined">notifications</span></button>
+        <button class="icon-btn avatar-btn" routerLink="/profile">JD</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="feed-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="activity-card" *ngIf="isLoggedIn">
+        <h3>Your Activity</h3>
+        <div class="activity-row"><span>ACTIVE REQUESTS</span><strong>04</strong></div>
+        <div class="activity-row"><span>FULFILLED</span><strong>12</strong></div>
+        <div class="activity-row contribution"><span>CONTRIBUTION SCORE</span><strong class="gold">880</strong></div>
+      </div>
+
+      <div class="quick-nav">
+        <p class="quick-nav-label">Quick Navigation</p>
+        <a href="#"><span class="material-symbols-outlined">bookmark</span> Saved Items</a>
+        <a href="#"><span class="material-symbols-outlined">history</span> Recent History</a>
+        <a href="#"><span class="material-symbols-outlined">school</span> Department Guides</a>
+      </div>
+    </aside>
+
+    <!-- MAIN FEED -->
+    <main class="feed-main">
+
+      <div class="feed-header">
+        <div>
+          <h1 class="serif">Material Requests</h1>
+          <p>The central exchange for academic tools, literature, and scholarly resources within Liceo.</p>
+        </div>
+        <div class="search-box">
+          <span class="material-symbols-outlined">search</span>
+          <input type="text" [(ngModel)]="searchQuery" placeholder="Search for textbooks, tools..."/>
+        </div>
+      </div>
+
+      <!-- Category Filters -->
+      <div class="category-filters">
+        <button *ngFor="let cat of categories"
+          [class.active]="activeCategory === cat"
+          (click)="setCategory(cat)">
+          {{ cat }}
+        </button>
+      </div>
+
+      <!-- Posts Grid -->
+      <div class="posts-grid">
+        <div class="post-card" *ngFor="let post of posts">
+          <div class="post-top">
+            <span class="post-status" [ngClass]="getStatusClass(post.status)">{{ post.status }}</span>
+            <span class="post-time">{{ post.timeAgo }}</span>
+          </div>
+          <h3 class="post-title serif-italic">{{ post.title }}</h3>
+          <p class="post-desc">{{ post.description }}</p>
+          <div class="post-footer">
+            <span class="post-category">
+              <span class="material-symbols-outlined">bookmark</span>
+              {{ post.category }}
+            </span>
+            <a [routerLink]="['/post', post.id]" class="view-details" *ngIf="!post.resolved">
+              View Details <span class="material-symbols-outlined">arrow_forward</span>
+            </a>
+            <span class="resolved-badge" *ngIf="post.resolved">
+              <span class="material-symbols-outlined">check_circle</span> Resolved
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pagination -->
+      <div class="pagination">
+        <button class="page-btn"><span class="material-symbols-outlined">chevron_left</span></button>
+        <button class="page-btn active">1</button>
+        <button class="page-btn">2</button>
+        <button class="page-btn">3</button>
+        <span class="page-ellipsis">...</span>
+        <button class="page-btn">12</button>
+        <button class="page-btn next-btn">
+          Next Archive <span class="material-symbols-outlined">chevron_right</span>
+        </button>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- FAB -->
+  <a routerLink="/post/create" class="fab">
+    <span class="material-symbols-outlined">add</span>
+    Request Material
+  </a>
+
+  <!-- FOOTER -->
+  <footer class="app-footer">
+    <div class="footer-brand">
+      Liceo de Cagayan University
+      <span>© 2024 Liceo de Cagayan University. The Academic Curator.</span>
+    </div>
+    <div class="footer-links">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+      <a href="#">University Portal</a>
+      <a href="#">Contact Support</a>
+    </div>
+  </footer>
+
+</div>
