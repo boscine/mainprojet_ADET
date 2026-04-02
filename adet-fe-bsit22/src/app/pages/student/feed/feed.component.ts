@@ -26,11 +26,17 @@ export class FeedComponent implements OnInit {
   ];
 
   isLoggedIn = false;
+  isAdmin = false;
+  user: any = {};
 
   constructor(private auth: AuthService) {}
 
   ngOnInit() {
     this.isLoggedIn = this.auth.isLoggedIn();
+    this.isAdmin = this.auth.isAdmin();
+    if (this.isLoggedIn) {
+      this.user = this.auth.getUser() || {};
+    }
   }
 
   setCategory(cat: string) { this.activeCategory = cat; }

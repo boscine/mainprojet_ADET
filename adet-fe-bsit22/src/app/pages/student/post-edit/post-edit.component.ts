@@ -51,7 +51,7 @@ import { RouterModule }      from '@angular/router';
       </div>
     </div>
   </main>
-  <footer class="app-footer"><div class="footer-brand">Liceo de Cagayan University<span>© 2024 The Academic Curator.</span></div></footer>
+  <footer class="app-footer"><div class="footer-brand">Liceo de Cagayan University<span>© 2026 The Academic Curator.</span></div></footer>
 </div>`,
   styleUrls: ['../post-create/post-create.component.scss'],
 })

@@ -1,8 +1,8 @@
 @echo off
 echo --- STARTING ADET SERVICES ---
 
-set "FE_PATH=%USERPROFILE%\Desktop\adet-mainproject-bsit22\adet-fe-bsit22\launch_fe.vbs"
-set "BE_PATH=%USERPROFILE%\Desktop\adet-mainproject-bsit22\adet-be-bsit22\launch_be.vbs"
+set "FE_PATH=C:\Users\Jhandaser\Desktop\adet-mainproject-bsit22\adet-fe-bsit22\launch_fe.vbs"
+set "BE_PATH=C:\Users\Jhandaser\Desktop\adet-mainproject-bsit22\adet-be-bsit22\launch_be.vbs"
 
 :: Start Backend
 if exist "%BE_PATH%" (

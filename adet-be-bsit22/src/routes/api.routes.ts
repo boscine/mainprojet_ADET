@@ -1,3 +1,4 @@
+// src/routes/api.routes.ts
 import { Hono } from 'hono';
 import { PrismaClient } from '@prisma/client';
 import { AuthVariables } from '../middleware/auth.middleware';

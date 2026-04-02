@@ -7,11 +7,11 @@
       <nav class="nav-links">
         <a routerLink="/feed">Requests</a>
         <a routerLink="/post/create" class="active">Create</a>
-        <a routerLink="/admin">Dashboard</a>
+        <a routerLink="/admin" *ngIf="isAdmin">Dashboard</a>
       </nav>
       <div class="nav-actions">
         <button class="icon-btn"><span class="material-symbols-outlined">notifications</span></button>
-        <button class="icon-btn"><span class="material-symbols-outlined">account_circle</span></button>
+        <button class="icon-btn avatar-btn" routerLink="/profile">{{ user.display_name?.charAt(0)?.toUpperCase() || 'U' }}</button>
       </div>
     </div>
   </header>
@@ -94,7 +94,7 @@
   <footer class="app-footer">
     <div class="footer-brand">
       Liceo de Cagayan University
-      <span>© 2024 The Academic Curator.</span>
+      <span>© 2026 The Academic Curator.</span>
     </div>
     <div class="footer-links">
       <a href="#">Privacy Policy</a>

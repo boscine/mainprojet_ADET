@@ -12,9 +12,9 @@ export interface TokenPayload { // Add 'export' so it's accessible elsewhere
   id: number;
   role: 'student' | 'admin';
   exp: number;
-  email?: string;       
-  name?: string;        
-  displayName?: string; 
+  email?: string;
+  name?: string;
+  displayName?: string;
   contacts?: { type: string; value: string }[];
 }
 
@@ -24,7 +24,10 @@ export class AuthService {
 
   login(email: string, password: string) {
     return this.http.post<{ token: string }>('/api/auth/login', { email, password })
-      .pipe(tap(res => localStorage.setItem(TOKEN_KEY, res.token)));
+      .pipe(tap(res => {
+        localStorage.setItem(TOKEN_KEY, res.token);
+        console.log(`✅ User Login | Email: ${email}`);
+      }));
   }
 
   register(email: string, password: string, displayName: string) {

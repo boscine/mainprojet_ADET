@@ -1,8 +1,8 @@
-import { Component }    from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule }  from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-
+import { AuthService } from '../../../core/services/auth.service';
 @Component({
   selector: 'app-post-create',
   standalone: true,
@@ -11,11 +11,13 @@ import { RouterModule } from '@angular/router';
   styleUrls: ['./post-create.component.scss'],
 })
 export class PostCreateComponent {
-  title       = '';
-  categoryId  = '';
+  title = '';
+  categoryId = '';
   description = '';
-  loading     = false;
-  success     = false;
+  loading = false;
+  success = false;
+  isAdmin = false;
+  user: any = {};
 
   categories = [
     { id: '1', name: 'Textbook' },
@@ -27,6 +29,15 @@ export class PostCreateComponent {
     { id: '7', name: 'USB / Storage' },
     { id: '8', name: 'Other' },
   ];
+
+  constructor(private auth: AuthService) {}
+
+  ngOnInit() {
+    this.isAdmin = this.auth.isAdmin();
+    if (this.auth.isLoggedIn()) {
+      this.user = this.auth.getUser() || {};
+    }
+  }
 
   onSubmit() {
     this.loading = true;

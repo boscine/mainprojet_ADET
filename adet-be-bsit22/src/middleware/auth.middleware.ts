@@ -1,34 +1,24 @@
 import { Context, Next } from 'hono';
 import jwt from 'jsonwebtoken';
 
-interface JwtPayload {
-  id: number;
-}
-
-export type AuthVariables = {
-  userId: number;
-};
-
-export const verifyToken = async (c: Context<{ Variables: AuthVariables }>, next: Next) => {
+export const authenticate = async (c: Context, next: Next) => {
   const authHeader = c.req.header('Authorization');
-  const secret = process.env.JWT_SECRET;
-
   if (!authHeader?.startsWith('Bearer ')) {
-    return c.json({ message: 'No token provided' }, 403);
-  }
-
-  if (!secret) {
-    console.error('JWT_SECRET is not defined in .env');
-    return c.json({ message: 'Internal Server Error' }, 500);
-  }
-
-  const token = authHeader.split(' ')[1];
-
-  try {
-    const decoded = jwt.verify(token, secret) as JwtPayload;
-    c.set('userId', decoded.id);
-    await next();
-  } catch (err) {
     return c.json({ message: 'Unauthorized' }, 401);
   }
+  try {
+    const payload = jwt.verify(authHeader.slice(7), process.env.JWT_SECRET!) as any;
+    c.set('userId', payload.userId);
+    c.set('role', payload.role);      // ← add this
+    await next();
+  } catch {
+    return c.json({ message: 'Invalid token' }, 401);
+  }
+};
+
+export const adminOnly = async (c: Context, next: Next) => {
+  if (c.get('role') !== 'admin') {
+    return c.json({ message: 'Forbidden' }, 403);
+  }
+  await next();
 };

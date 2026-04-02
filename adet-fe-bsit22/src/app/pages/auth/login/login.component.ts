@@ -19,12 +19,14 @@ export class LoginComponent {
   error        = '';
   loading      = false;
   showPassword = false;
+  isAdmin      = false;
 
   constructor(private auth: AuthService, private router: Router) {}
 
   onSubmit() {
     this.error   = '';
     this.loading = true;
+    this.isAdmin = this.auth.isAdmin();
     this.auth.login(this.email, this.password).subscribe({
       next: () => this.router.navigate([this.auth.isAdmin() ? '/admin' : '/feed']),
       error: (err) => {

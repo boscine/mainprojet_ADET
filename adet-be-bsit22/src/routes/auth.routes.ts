@@ -7,14 +7,22 @@ const auth = new Hono();
 const prisma = new PrismaClient();
 
 // POST /api/auth/login
+ 
 auth.post('/login', async (c) => {
   const { email, password } = await c.req.json();
-  const user = await prisma.user.findUnique({ where: { email } });
+  const user = await prisma.user.findUnique({ where: { email: email.toLowerCase() } });
 
-  if (!user || !bcrypt.compareSync(password, user.passwordHash)) {
-    return c.json({ message: 'Invalid credentials' }, 401);
+  // 1. Check if user exists
+  if (!user) {
+    // Helpful but less secure:
+    return c.json({ message: 'No account found with this email' }, 401);
   }
 
+  // 2. Check password
+  const isPasswordValid = bcrypt.compareSync(password, user.passwordHash);
+  if (!isPasswordValid) {
+    return c.json({ message: 'Incorrect password' }, 401);
+  }
   if (user.status !== 'active') {
     return c.json({ message: 'Account is restricted' }, 403);
   }
@@ -25,7 +33,7 @@ auth.post('/login', async (c) => {
   });
 
   const token = jwt.sign(
-    { id: user.id, role: user.role },
+    { id: user.id, email: user.email, display_name: user.displayName, role: user.role },
     process.env.JWT_SECRET as string,
     { expiresIn: '1d' }
   );
@@ -51,7 +59,7 @@ auth.post('/register', async (c) => {
   });
 
   const token = jwt.sign(
-    { id: user.id, role: user.role },
+    { id: user.id, email: user.email, display_name: user.displayName, role: user.role },
     process.env.JWT_SECRET as string,
     { expiresIn: '1d' }
   );

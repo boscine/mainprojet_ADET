@@ -17,6 +17,7 @@ export class PostDetailComponent implements OnInit {
   showReportForm = false;
   reportReason  = '';
   reportDetails = '';
+  user: any = {};
 
   reasons = ['Inappropriate Content', 'Spam', 'Misleading', 'Not Educational', 'Duplicate Post', 'Fake Contact Info', 'Other'];
 
@@ -29,7 +30,13 @@ export class PostDetailComponent implements OnInit {
   };
 
   constructor(private auth: AuthService) {}
-  ngOnInit() { this.isLoggedIn = this.auth.isLoggedIn(); }
+
+  ngOnInit() { 
+    this.isLoggedIn = this.auth.isLoggedIn();
+    if (this.isLoggedIn) {
+      this.user = this.auth.getUser() || {};
+    }
+  }
   revealContact() { this.showContact = true; }
   toggleReport()  { this.showReportForm = !this.showReportForm; }
   submitReport()  { this.showReportForm = false; }

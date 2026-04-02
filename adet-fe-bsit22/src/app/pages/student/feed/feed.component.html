@@ -7,11 +7,11 @@
       <nav class="nav-links">
         <a routerLink="/feed" class="active">Requests</a>
         <a routerLink="/post/create">Create</a>
-        <a routerLink="/admin" *ngIf="isLoggedIn">Dashboard</a>
+        <a routerLink="/admin" *ngIf="isAdmin">Dashboard</a>
       </nav>
       <div class="nav-actions">
         <button class="icon-btn"><span class="material-symbols-outlined">notifications</span></button>
-        <button class="icon-btn avatar-btn" routerLink="/profile">JD</button>
+        <button class="icon-btn avatar-btn" routerLink="/profile">{{ user.display_name?.charAt(0)?.toUpperCase() || 'U' }}</button>
       </div>
     </div>
   </header>
@@ -23,8 +23,7 @@
       <div class="activity-card" *ngIf="isLoggedIn">
         <h3>Your Activity</h3>
         <div class="activity-row"><span>ACTIVE REQUESTS</span><strong>04</strong></div>
-        <div class="activity-row"><span>FULFILLED</span><strong>12</strong></div>
-        <div class="activity-row contribution"><span>CONTRIBUTION SCORE</span><strong class="gold">880</strong></div>
+        <div class="activity-row"><span>FULFILLED</span><strong>2</strong></div>
       </div>
 
       <div class="quick-nav">
@@ -108,7 +107,7 @@
   <footer class="app-footer">
     <div class="footer-brand">
       Liceo de Cagayan University
-      <span>© 2024 Liceo de Cagayan University. The Academic Curator.</span>
+      <span>© 2026 The Academic Curator.</span>
     </div>
     <div class="footer-links">
       <a href="#">Privacy Policy</a>
